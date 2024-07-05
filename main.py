@@ -1,15 +1,13 @@
 import random
 
-# IT IS HARD ON PHONE, TERRIBLY SORRY FOR LESS ADDITIONS
-
-
 name = None
 
 def greet_user(name):
-    greetings = [f"Welcome {name}", "Welcome buddy!", "Howdy man!"]
-    length = len(greetings)
-    greeting_index = random.randint(0, length - 1)
+    greetings = [f"Welcome {name}", "Welcome buddy!", "Howdy!"]
+    greeting_index = random.randint(0, len(greetings) - 1)
     print(greetings[greeting_index])
+
+starting = True
 
 def display_help():
     print("Options:")
@@ -24,41 +22,67 @@ def ask_user_name():
     name = str(input("Your name: "))
     greet_user(name)
 
+def show_user_menu():
+    print("1. Continue")
+    print("2. Exit")
+    print("3. Bagpack")
+    print("4. Pocket monsters")
+    choice = int(input("Choose an option: "))
+    if choice == 1:
+        print("Continue")
+    elif choice == 2:
+        print("Exit")
+    elif choice == 3:
+        print("Bagpack")
+    elif choice == 4:
+        print("Pokemons")
+    else:
+        print("Invalid option. Please choose again.")
+
 def start_new_game():
-    areas = ["Forest", "Desert", "Mountain"]
-    vehicles = ["Car", "Bike", "Horse"]
+    regions = {
+        "Kanto": ["Bulbasaur", "Charmander", "Squirtle"],
+        "Johto": ["Chikorita", "Cyndaquil", "Totodile"],
+        "Hoenn": ["Treecko", "Torchic", "Mudkip"],
+        "Sinnoh": ["Turtwig", "Chimchar", "Piplup"],
+        "Unova": ["Snivy", "Tepig", "Oshawott"],
+        "Kalos": ["Chespin", "Fennekin", "Froakie"],
+        "Alola": ["Rowlet", "Litten", "Popplio"],
+        "Galar": ["Grookey", "Scorbunny", "Sobble"],
+        "Paldea": ["Sprigatito", "Fuecoco", "Quaxly"]
+    }
 
-    print("Select an area to go to:")
-    for i, area in enumerate(areas, 1):
-        print(f"{i}. {area}")
+    selected_region = random.choice(list(regions.keys()))
+    starters = regions[selected_region]
+    print(f"For starting, please choose a pocket monster for your region: {selected_region}")
+    for i, starter in enumerate(starters, 1):
+        print(f"{i}. {starter}")
     
-    
-    area_choice = int(input("Your choice: "))
-    if not type(area_choice) is string:
-      print('Please input only the numbers')
-      start_new_game()
-    
-    selected_area = areas[area_choice - 1]
+    choice = int(input("Choose your starter Pokémon: "))
+    if 1 <= choice <= len(starters):
+        selected_pokemon = starters[choice - 1]
+        print(f"You have chosen {selected_pokemon}!")
+        print(f"{selected_pokemon} has been added to your pokedex! Froakie is in your team now! :D")
+        print("===========STATS===========")
+        print("Level: 5\nHP: 20\nAttack: 10\nDefense: 10\nSpeed: 10\nSpecial Attack: 10\nSpecial Defense: 10\nMoves: Tackle, Growl")
 
-    print("Select a vehicle to use:")
-    for i, vehicle in enumerate(vehicles, 1):
-        print(f"{i}. {vehicle}")
-
-    vehicle_choice = int(input("Your choice: "))
-    selected_vehicle = vehicles[vehicle_choice - 1]
-
-    print(f"You are heading to the {selected_area} with your {selected_vehicle}!")
+    else:
+        print("Invalid choice. Please try again.")
 
 def leaderboard():
     print("Leaderboard is currently empty.")
 
 def main_menu():
     while True:
-        display_help()
+        if starting:
+            display_help()
+            print("Welcome to the Pokémon game!")
+            starting = False
+        else:
+            show_user_menu()    
         choice = input("Choose an option: ").strip().lower()
         if choice == "1":
             print("Loading game...")
-            # TODO:Add logic to load game
         elif choice == "2":
             start_new_game()
         elif choice == "3":
